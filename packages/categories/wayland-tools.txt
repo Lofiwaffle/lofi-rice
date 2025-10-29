@@ -1,0 +1,8 @@
+grimblast-git
+mako
+power-profiles-daemon
+rofi
+swaync
+swayosd
+waybar
+wl-clip-persist

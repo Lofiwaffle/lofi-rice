@@ -1,0 +1,11 @@
+illogical-impulse-fonts-themes
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+noto-fonts-extra
+otf-font-awesome
+ttf-cascadia-mono-nerd
+ttf-firacode-nerd
+ttf-ia-writer
+ttf-jetbrains-mono
+woff2-font-awesome

@@ -1,0 +1,16 @@
+# Commit message template for lofi-rice
+#
+# Format:
+# <type>: <subject>
+#
+# Types:
+#   config: Configuration changes
+#   pkg: Package list updates
+#   script: Script additions/modifications
+#   docs: Documentation updates
+#   fix: Bug fixes
+#   feat: New features
+#
+# Example:
+#   config: Update Hyprland keybindings for new apps
+#   pkg: Add rofi and dunst to package list

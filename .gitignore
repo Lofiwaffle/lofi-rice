@@ -1,0 +1,32 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Backup files
+*.bak
+*.backup
+*-backup-*
+
+# Sensitive files (adjust as needed)
+# Uncomment if you don't want to track these:
+# config/hypr/hyprland/scripts/ai/*
+# local/bin/omarchy-*
+
+# Temporary files
+*.tmp
+.cache/
