@@ -75,9 +75,13 @@ echo "🔧 Backing up application configs..."
 for app in dunst wlogout swayosd alacritty foot qt5ct qt6ct gtk-3.0 gtk-4.0 \
            fastfetch cava fontconfig rofi swaync; do
     if [ -L "$HOME/.config/$app" ]; then
-        APP_TARGET=$(readlink -f "$HOME/.config/$app")
-        echo "   $app (symlinked)"
-        rsync -av --delete "$APP_TARGET/" "$REPO_DIR/config/$app/"
+        if [ -e "$HOME/.config/$app" ]; then
+            APP_TARGET=$(readlink -f "$HOME/.config/$app")
+            echo "   $app (symlinked)"
+            rsync -av --delete "$APP_TARGET/" "$REPO_DIR/config/$app/"
+        else
+            echo "   $app (broken symlink, skipping)"
+        fi
     elif [ -d "$HOME/.config/$app" ]; then
         echo "   $app"
         rsync -av --delete "$HOME/.config/$app/" "$REPO_DIR/config/$app/"

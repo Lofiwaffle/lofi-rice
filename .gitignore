@@ -16,17 +16,25 @@ Thumbs.db
 
 # Log files
 *.log
+install-*.log
 
 # Backup files
 *.bak
 *.backup
 *-backup-*
-
-# Sensitive files (adjust as needed)
-# Uncomment if you don't want to track these:
-# config/hypr/hyprland/scripts/ai/*
-# local/bin/omarchy-*
+*.backup.*
+.config-backup-*/
 
 # Temporary files
 *.tmp
 .cache/
+
+# Hyprland specific
+config/hypr/*.log
+config/hypr/**/*.log
+
+# Git metadata (already ignored by default but explicit)
+.git/
+
+# Don't ignore .gitignore itself
+!.gitignore

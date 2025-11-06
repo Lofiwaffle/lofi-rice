@@ -43,9 +43,24 @@ _TODO: Add screenshots of your desktop_
 
 ### Fresh Installation
 
+**Option 1: Using the Master Installer (Recommended)**
+
 ```bash
 # Clone this repository
-git clone https://github.com/YOUR_USERNAME/lofi-rice.git
+git clone https://github.com/Lofiwaffle/lofi-rice.git
+cd lofi-rice
+
+# Run the interactive installer
+./install.sh
+
+# Follow the prompts and reboot when done
+```
+
+**Option 2: Manual Step-by-Step**
+
+```bash
+# Clone this repository
+git clone https://github.com/Lofiwaffle/lofi-rice.git
 cd lofi-rice
 
 # Install all packages (requires ~2GB download)
@@ -58,6 +73,14 @@ cd lofi-rice
 ./scripts/enable-services.sh
 
 # Log out and log back in (or reboot)
+```
+
+**Option 3: Fully Automated (No Prompts)**
+
+```bash
+git clone https://github.com/Lofiwaffle/lofi-rice.git
+cd lofi-rice
+./install.sh --auto
 ```
 
 ### Updating Existing System
@@ -119,6 +142,7 @@ git pull
 ```
 lofi-rice/
 ├── README.md                    # This file
+├── install.sh                   # 🆕 Master installation script
 ├── scripts/                     # Installation and maintenance scripts
 │   ├── backup-current-configs.sh
 │   ├── install-packages.sh
@@ -228,18 +252,18 @@ pacman -Qm | awk '{print $1}' > packages/aur-packages.txt
 
 ### Tested On
 
-- **OS:** Arch Linux (kernel 6.17.5-arch1-1)
+- **OS:** Arch Linux (kernel 6.17.7-arch1-1)
 - **Compositor:** Hyprland (based on Illogical Impulse)
 - **Shell:** Zsh with Zinit + Powerlevel10k
 - **Terminal:** Kitty
 - **Display:** 5-monitor setup (including portrait displays)
+- **Bootloader:** Limine with BTRFS snapshot support
 
 ### Hardware
 
-- **CPU:** AMD Ryzen 7 3700X
-- **RAM:** 128GB
-- **GPU:** NVIDIA RTX 3060 (with Wayland support)
-- **Storage:** NVMe SSD
+- **GPU:** Intel Arrow Lake-P integrated graphics (i915 driver)
+- **Storage:** BTRFS with LUKS encryption
+- **Displays:** 5 monitors (2 portrait, 3 landscape including eDP-1 laptop screen)
 
 ---
 
@@ -307,8 +331,8 @@ MIT License - Feel free to use and modify for your own setup
 
 ## 📞 Contact
 
-- **GitHub:** [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- **Obsidian vault:** See my [mind repository](https://github.com/YOUR_USERNAME/mind) for my second brain
+- **GitHub:** [@Lofiwaffle](https://github.com/Lofiwaffle)
+- **Obsidian vault:** See my [mind repository](https://github.com/Lofiwaffle/mind) for my second brain
 
 ---
 

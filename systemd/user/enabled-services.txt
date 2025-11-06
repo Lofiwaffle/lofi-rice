@@ -1,0 +1,15 @@
+UNIT FILE                     STATE   PRESET
+docker-desktop.service        enabled enabled
+elephant.service              enabled enabled
+ulauncher.service             enabled enabled
+wireplumber.service           enabled enabled
+xdg-user-dirs.service         enabled enabled
+ydotool.service               enabled enabled
+gnome-keyring-daemon.socket   enabled enabled
+p11-kit-server.socket         enabled enabled
+pipewire-pulse.socket         enabled enabled
+pipewire.socket               enabled enabled
+dotfiles-backup.timer         enabled enabled
+omarchy-battery-monitor.timer enabled enabled
+
+12 unit files listed.

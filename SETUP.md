@@ -109,6 +109,17 @@ git push
 
 Restore on new system:
 \`\`\`bash
+# Option 1: Interactive installer (recommended)
+git clone https://github.com/YOUR_USERNAME/lofi-rice.git
+cd lofi-rice
+./install.sh
+
+# Option 2: Automated (no prompts)
+git clone https://github.com/YOUR_USERNAME/lofi-rice.git
+cd lofi-rice
+./install.sh --auto
+
+# Option 3: Manual (individual scripts)
 git clone https://github.com/YOUR_USERNAME/lofi-rice.git
 cd lofi-rice
 ./scripts/install-packages.sh

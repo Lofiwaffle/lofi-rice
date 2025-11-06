@@ -12,7 +12,6 @@ illogical-impulse-microtex-git
 illogical-impulse-microtex-git-debug
 illogical-impulse-portal
 illogical-impulse-python
-illogical-impulse-quickshell-git
 illogical-impulse-screencapture
 illogical-impulse-toolkit
 illogical-impulse-widgets
