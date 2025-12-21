@@ -2,5 +2,6 @@ fcitx5-gtk
 gnome-themes-extra
 illogical-impulse-fonts-themes
 kvantum-qt5
+webkit2gtk
 webkit2gtk-4.1
 yaru-icon-theme

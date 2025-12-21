@@ -1,3 +1,4 @@
+if [ -n "$ZSH_VERSION" ]; then
 # --- Zinit bootstrap (unchanged) ---
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
   print -P "%F{33}%F{220}Installing %F{33}Zinit%f"
@@ -22,14 +23,14 @@ typeset -g POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 # Pretty system summary only in interactive shells
-[[ -o interactive ]] && command -v fastfetch >/dev/null && fastfetch
+[[ -o interactive ]] && command -v nitch >/dev/null && nitch
 
 # --- Plugins that add *completion definitions* must load BEFORE compinit ---
 zinit light zsh-users/zsh-completions
 
 # --- Initialize completion system (cached + secure) ---
 # cache speeds startup; versioned dump avoids stale caches across upgrades
-ZCOMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump-$ZSH_VERSION"
+set ZCOMPDUMP "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump-$ZSH_VERSION"
 mkdir -p "${ZCOMPDUMP:h}"
 autoload -Uz compinit
 # If compaudit ever warns, run the one-time fix shown below in Step 3.
@@ -42,6 +43,46 @@ zinit light Aloxaf/fzf-tab
 # Use turbo mode (wait"0") to defer loading for faster startup
 zinit ice wait"0" atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
+
+# Configure zsh-autosuggestions for multiple rows
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# Custom widget to show multiple suggestions (5 rows)
+_zsh_autosuggest_widget_multi() {
+  local suggestions=()
+  local i=0
+
+  # Get up to 5 suggestions from history
+  for suggestion in ${(f)"$(fc -ln -1000 | grep -E "^${LBUFFER}" | tail -5)"}; do
+    if [[ $i -lt 5 ]]; then
+      suggestions+=("$suggestion")
+      ((i++))
+    fi
+  done
+  
+  if [[ ${#suggestions[@]} -gt 0 ]]; then
+    # Display suggestions in multiple lines
+    local suggestion_text=""
+    for ((i=1; i<=${#suggestions[@]}; i++)); do
+      suggestion_text+="${i}: ${suggestions[$i]}"
+      if [[ $i -lt ${#suggestions[@]} ]]; then
+        suggestion_text+=$'\n'
+      fi
+    done
+    
+    # Store the first suggestion for default behavior
+    ZSH_AUTOSUGGEST suggestion="${suggestions[1]}"
+    
+    # Show all suggestions in a temporary display
+    zle -M "Suggestions:\n${suggestion_text}"
+  fi
+}
+
+# Bind the multi-suggestion widget to a key (Ctrl+X)
+zle -N _zsh_autosuggest_widget_multi
+bindkey '^X' _zsh_autosuggest_widget_multi
 
 zinit ice wait"0" atinit"zpcompinit; zpcdreplay"
 zinit light zsh-users/zsh-syntax-highlighting  # MUST be last among plugins
@@ -69,6 +110,10 @@ zinit snippet OMZP::kubectx
 
 zinit ice wait"0"
 zinit snippet OMZP::command-not-found   # uses `pkgfile` on Arch
+
+zinit light chrissicool/zsh-256color
+zinit light chrissicool/zsh-bash
+zinit light justyntemme/zsh-deja-vu
 
 # --- Your extra config files ---
 source ~/.config/zshrc.d/dots-hyprland.zsh
@@ -107,6 +152,10 @@ else
   alias la='ls -A'
 fi
 
+# Additional ls convenience aliases
+alias l='ls -lah'
+alias lla='ls -la'
+
 # Modern CLI replacements
 command -v bat >/dev/null && alias cat='bat --style=plain --paging=never'
 command -v rg >/dev/null && alias grep='rg'
@@ -131,6 +180,10 @@ alias h='history'
 alias j='jobs -l'
 alias ports='netstat -tulanp'
 alias myip='curl ifconfig.me'
+alias flushdns='sudo systemctl restart systemd-resolved'
+
+# Fun
+alias aquarium='asciiquarium'
 
 # Package management (Arch specific)
 alias pacu='sudo pacman -Syu'
@@ -138,6 +191,56 @@ alias paci='sudo pacman -S'
 alias pacr='sudo pacman -R'
 alias pacs='pacman -Ss'
 alias pacq='pacman -Q | grep'
+
+# Niri management
+alias nval='niri validate'
+alias nmsg='niri msg'
+alias nver='niri --version'
+
+# Project navigation (complement hash -d)
+alias cdproj='cd ~/Projects'
+alias cdrice='cd ~/lofi-rice'
+alias cdmind='cd ~/mind/mind'
+
+# Systemd shortcuts
+alias scst='systemctl status'
+alias scr='sudo systemctl restart'
+alias scstart='sudo systemctl start'
+alias scstop='sudo systemctl stop'
+alias scl='systemctl list-units --type service'
+alias jctl='journalctl -xe'
+alias jlog='journalctl -f'
+
+# Git workflow (complement OMZ git plugin)
+alias gbc='git branch --contains'
+alias gbr='git branch -r'
+alias gbvv='git branch -vv'
+alias grv='git remote -v'
+alias gtag='git tag -l'
+alias gunstage='git reset HEAD'
+
+# Development workflow
+alias venv='python -m venv'
+alias pipr='pip install -r requirements.txt'
+alias pipf='pip freeze > requirements.txt'
+
+# Network & diagnostics
+alias gpuinfo='lspci | grep VGA'
+alias gpustat='for card in /sys/class/drm/card*/device/driver; do echo "$card: $(basename $(readlink $card))"; done'
+alias dmesggrep='dmesg | grep -E "(error|Error|ERROR|warning|Warning)"'
+alias ports='netstat -tulanp'
+alias socks='netstat -tnp | grep ESTABLISHED'
+
+# Docker shortcuts (if you use docker)
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dim='docker images'
+alias dls='docker logs -f'
+
+# File operations
+alias dus='du -sh * | sort -h'  # Disk usage summary
+alias fcount='find . -type f | wc -l'  # Count files recursively
+alias dcount='find . -maxdepth 1 -type d | wc -l'  # Count directories
 
 # Help with bat
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
@@ -147,6 +250,10 @@ alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
+
+# zsh-autosuggestions styling for better visibility
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
 # Enhanced completion settings
 zstyle ':completion:*' use-cache on
@@ -194,9 +301,11 @@ bindkey '^E' end-of-line          # Ctrl+E -> end of line
 
 # Delete operations
 bindkey '^[[3;5~' kill-word       # Ctrl+Delete -> delete word forward
-bindkey '^H' backward-kill-word   # Ctrl+Backspace -> delete word backward
+# Removed: bindkey '^H' backward-kill-word (conflicts with backspace key)
 bindkey '^U' backward-kill-line   # Ctrl+U -> delete to beginning of line
 bindkey '^K' kill-line            # Ctrl+K -> delete to end of line
+# Word deletion with Ctrl+W (standard behavior)
+bindkey '^W' backward-kill-word   # Ctrl+W -> delete word backward
 
 # History search (with already-typed text)
 bindkey '^[[A' history-beginning-search-backward  # Up arrow
@@ -280,4 +389,95 @@ cdgr() {
   cd "$(git rev-parse --show-toplevel 2>/dev/null || echo .)"
 }
 
+# Comprehensive system update
+sysupdate() {
+  echo "╔════════════════════════════════════════╗"
+  echo "║     🚀 SYSTEM UPDATE STARTING...       ║"
+  echo "╚════════════════════════════════════════╝"
+
+  # Update pacman packages
+  echo -e "\n📦 Updating pacman packages..."
+  sudo pacman -Syu
+
+  # Update AUR packages (if yay or paru available)
+  if command -v yay >/dev/null; then
+    echo -e "\n🔷 Updating AUR packages (yay)..."
+    yay -Su --noconfirm
+  elif command -v paru >/dev/null; then
+    echo -e "\n🔷 Updating AUR packages (paru)..."
+    paru -Su --noconfirm
+  fi
+
+  # Update cargo/rust
+  if command -v cargo >/dev/null; then
+    echo -e "\n🦀 Updating Rust toolchain..."
+    rustup update
+  fi
+
+  # Update npm global packages
+  if command -v npm >/dev/null; then
+    echo -e "\n📘 Checking npm global packages..."
+    npm outdated -g || true
+  fi
+
+  # Clean pacman cache
+  echo -e "\n🧹 Cleaning pacman cache..."
+  sudo pacman -Sc --noconfirm
+
+  echo -e "\n╔════════════════════════════════════════╗"
+  echo "║     ✅ SYSTEM UPDATE COMPLETE!        ║"
+  echo "╚════════════════════════════════════════╝"
+}
+
+# Quick alias for the update function
+alias sysup='sysupdate'
+
 export PATH=$PATH:/home/lofi/.spicetify
+
+# --- Enhanced completions for development tools ---
+# Docker completions
+if command -v docker >/dev/null; then
+  zstyle ':completion:*:docker:*' option-stacking yes
+  zstyle ':completion:*:docker-*:*' option-stacking yes
+fi
+
+# NPM completions
+if command -v npm >/dev/null; then
+  eval "$(npm completion)"
+fi
+
+# Cargo/Rust completions
+if command -v cargo >/dev/null; then
+  fpath+="${CARGO_HOME:-$HOME/.cargo}/registry/cache"
+fi
+
+# Python completions with pip
+if command -v python >/dev/null; then
+  zstyle ':completion:*:pip:*' list-colors '=(#b) (#B)(install|uninstall|show|list|freeze)*=0=0'
+fi
+
+# Enhanced completions for common tools
+zstyle ':completion:*:*:systemctl:*' option-stacking yes
+zstyle ':completion:*:pacman:*' option-stacking yes
+
+# Show completion menu with custom separators and spacing
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' format $'\n%F{cyan}%d%f\n'
+
+# Case-insensitive completions
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=* l:|=*'
+
+# Better git completions
+zstyle ':completion:*:git*' stop-patterns '(..|[/=])'
+
+# Faster completion caching
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zsh/completion-cache
+
+fi
+
+# opencode
+export PATH=/home/lofi/.opencode/bin:$PATH
+
+#zoxide
+eval "$(zoxide init zsh)"

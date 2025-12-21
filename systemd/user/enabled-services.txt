@@ -1,7 +1,5 @@
 UNIT FILE                     STATE   PRESET
 docker-desktop.service        enabled enabled
-elephant.service              enabled enabled
-ulauncher.service             enabled enabled
 wireplumber.service           enabled enabled
 xdg-user-dirs.service         enabled enabled
 ydotool.service               enabled enabled
@@ -12,4 +10,4 @@ pipewire.socket               enabled enabled
 dotfiles-backup.timer         enabled enabled
 omarchy-battery-monitor.timer enabled enabled
 
-12 unit files listed.
+10 unit files listed.

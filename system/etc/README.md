@@ -6,15 +6,13 @@ Review carefully before overwriting system files!
 ## pacman.conf changes:
 
 [options]
+HoldPkg     = pacman glibc
+Architecture = auto
 Color
 ILoveCandy
-VerbosePkgLists
-HoldPkg = pacman glibc
-Architecture = auto
 CheckSpace
 ParallelDownloads = 5
-DownloadUser = alpm
-SigLevel = Required DatabaseOptional
+SigLevel    = Required DatabaseOptional
 LocalFileSigLevel = Optional
 [core]
 Include = /etc/pacman.d/mirrorlist

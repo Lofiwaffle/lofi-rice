@@ -95,6 +95,7 @@
     // Modules configuration
     "hyprland/workspaces": {
         "disable-scroll": false,
+        "all-outputs": true,
         "persistent-workspaces": 
         {
             "HDMI-A-1": [1,2,3,4,5,6],

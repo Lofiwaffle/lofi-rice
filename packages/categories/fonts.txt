@@ -1,3 +1,4 @@
+apple-fonts
 illogical-impulse-fonts-themes
 noto-fonts
 noto-fonts-cjk
@@ -8,4 +9,6 @@ ttf-cascadia-mono-nerd
 ttf-firacode-nerd
 ttf-ia-writer
 ttf-jetbrains-mono
+ttf-nerd-fonts-symbols-mono
+ttf-sourcecodepro-nerd
 woff2-font-awesome

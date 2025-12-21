@@ -14,6 +14,10 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Auto-generated configs
+shell/.p10k.zsh
+.p10k.zsh
+
 # Log files
 *.log
 install-*.log
@@ -24,6 +28,12 @@ install-*.log
 *-backup-*
 *.backup.*
 .config-backup-*/
+*.old
+*.new
+config/hypr/**/*.old
+config/hypr/**/*.new
+config/hypr/**/*backup*
+config/hypr/custom/backups/
 
 # Temporary files
 *.tmp

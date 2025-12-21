@@ -28,6 +28,7 @@ video/x-theora+ogg=mpv.desktop
 application/ogg=mpv.desktop
 text/plain=code.desktop
 text/x-csrc=code.desktop
+x-scheme-handler/mailto=vivaldi-stable.desktop
 
 [Added Associations]
 text/plain=code.desktop;

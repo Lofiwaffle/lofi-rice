@@ -4,5 +4,5 @@ power-profiles-daemon
 rofi
 swaync
 swayosd
-waybar
+waybar-git
 wl-clip-persist
